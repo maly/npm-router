@@ -1,5 +1,4 @@
-Usage
-=====
+# Usage
 
 ```
 const paths = [
@@ -35,3 +34,7 @@ ohc(params => {
 window.onhashchange = ohc;
 
 ```
+
+`ohc("global")` register global functions:
+
+- `window.history.stepUp()` to go one level up (=drop last fraction of hash)

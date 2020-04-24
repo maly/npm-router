@@ -1,4 +1,4 @@
-const pathSplitter = hash => {
+const pathSplitter = (hash) => {
   if (!hash || !hash.length) return [];
   if (hash[0] == "#") hash = hash.substr(1);
   if (!hash || !hash.length) return [];
@@ -13,6 +13,8 @@ const pathSplitter = hash => {
 };
 
 const mainRouter = () => pathSplitter(document.location.hash);
+
+const goTo = (splitted) => (window.location.hash = splitted.join("/"));
 
 var patterns;
 
@@ -47,15 +49,30 @@ const patternMatcher = (test, pattern) => {
   return testpos === test.length ? out : null;
 };
 
+//one step up = drop last fraction of hash
+
+const stepUp = function (x) {
+  //console.log();
+
+  let q = mainRouter();
+  q.pop();
+  goTo(q);
+};
+
 var middleware = [];
 
-const onHashChange = main => {
+const onHashChange = (main) => {
   //middleware
   if (typeof main === "function") {
     //middleware add
 
     middleware.push(main);
 
+    return;
+  }
+
+  if (main === "global") {
+    window.history.stepUp = stepUp;
     return;
   }
 
@@ -87,11 +104,11 @@ const onHashChange = main => {
   patterns[found][1](params);
 };
 
-module.exports = pats => {
+module.exports = (pats) => {
   //some init stuff
 
   //pattern parser
-  patterns = pats.map(q => {
+  patterns = pats.map((q) => {
     return [pathSplitter(q[0]), q[1], q[2] ? q[2] : {}];
   });
 
