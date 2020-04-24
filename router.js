@@ -49,14 +49,32 @@ const patternMatcher = (test, pattern) => {
   return testpos === test.length ? out : null;
 };
 
-//one step up = drop last fraction of hash
-
-const stepUp = function (x) {
-  //console.log();
-
-  let q = mainRouter();
-  q.pop();
-  goTo(q);
+let globals = false;
+const regGlobal = () => {
+  globals = true;
+  window.history.steps = [];
+  window.history.step = () => {
+    //console.log("REG STEP", window.location.hash);
+    while (window.history.steps.length > 10) {
+      window.history.steps.shift();
+    }
+    window.history.steps.push(window.location.hash);
+  };
+  window.history.stepBack = () => {
+    if (window.history.steps.length < 1) return;
+    let akt = window.location.hash;
+    var newPage = window.history.steps.pop();
+    while (newPage === akt && window.history.steps.length > 0) {
+      newPage = window.history.steps.pop();
+    }
+    //console.log(newPage, akt, window.history.steps);
+    window.location.hash = newPage;
+  };
+  window.history.stepUp = () => {
+    let q = mainRouter();
+    q.pop();
+    goTo(q);
+  };
 };
 
 var middleware = [];
@@ -72,7 +90,7 @@ const onHashChange = (main) => {
   }
 
   if (main === "global") {
-    window.history.stepUp = stepUp;
+    regGlobal();
     return;
   }
 
@@ -101,6 +119,10 @@ const onHashChange = (main) => {
     $("section").hide();
     $("section#" + params.showSection).show();
   }*/
+
+  if (globals) {
+    window.history.step();
+  }
   patterns[found][1](params);
 };
 

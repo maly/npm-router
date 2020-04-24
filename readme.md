@@ -29,6 +29,8 @@ ohc(params => {
     $("section#" + params.showSection).show();
     delete params.showSection;
   }
+
+
 });
 
 window.onhashchange = ohc;
@@ -38,3 +40,4 @@ window.onhashchange = ohc;
 `ohc("global")` register global functions:
 
 - `window.history.stepUp()` to go one level up (=drop last fraction of hash)
+- `window.history.stepBack()` to go back to the previous page
