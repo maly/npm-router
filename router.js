@@ -12,7 +12,7 @@ const pathSplitter = (hash) => {
   return hh;
 };
 
-const mainRouter = () => pathSplitter(document.location.hash);
+const mainRouter = () => pathSplitter(window.location.hash);
 
 const goTo = (splitted) => (window.location.hash = splitted.join("/"));
 
@@ -61,7 +61,10 @@ const regGlobal = () => {
     window.history.steps.push(window.location.hash);
   };
   window.history.stepBack = () => {
-    if (window.history.steps.length < 1) return;
+    if (window.history.steps.length < 1) {
+      window.location.hash = "#/";
+      return;
+    }
     let akt = window.location.hash;
     var newPage = window.history.steps.pop();
     while (newPage === akt && window.history.steps.length > 0) {
@@ -105,7 +108,7 @@ const onHashChange = (main) => {
   //console.log("R", pq, i);
   if (found >= patterns.length) {
     //no match
-    document.location.hash = "#/";
+    window.location.hash = "#/";
     return;
   }
   var params = { ...patterns[found][2], ...pq };
