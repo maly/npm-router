@@ -1,6 +1,6 @@
 {
   "name": "@adent/router",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Usage\r =====",
   "main": "router.js",
   "scripts": {
