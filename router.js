@@ -30,6 +30,23 @@ const patternMatcher = (test, pattern) => {
       return null;
     }
     let t = test[testpos];
+    let tp = null;
+    if (t.indexOf("?") > 0) {
+      //split
+      let tx = t.split("?")
+      t = tx.shift();
+      tp = tx.join("?")
+      tx = tp.split("&").map(q => q.split("="));
+      if (!out.query) out.query = {}
+      for (let ti of tx) {
+        if (ti.length == 2) {
+          out.query[ti[0]] = ti[1]
+        } else {
+          out.query[ti[0]] = true
+        }
+      }
+
+    }
     if (p[0] === ":") {
       //param
       out[p.substr(1)] = t;
@@ -111,7 +128,10 @@ const onHashChange = (main) => {
     window.location.hash = "#/";
     return;
   }
-  var params = { ...patterns[found][2], ...pq };
+  var params = {
+    ...patterns[found][2],
+    ...pq
+  };
   //middleware
 
   for (let i = 0; i < middleware.length; i++) {

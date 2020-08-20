@@ -4,7 +4,7 @@
   "description": "Usage\r =====",
   "main": "router.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node test.js",
     "pub": "npm version patch && git push --follow-tags && npm publish --access=public"
   },
   "repository": {

@@ -37,6 +37,14 @@ window.onhashchange = ohc;
 
 ```
 
+### Queries
+
+#/a/b/c?par1=foo&par2=bar&par3
+
+=> params.query = {par1:"foo",par2:"bar",par3:true}
+
+### Globals
+
 `ohc("global")` register global functions:
 
 - `window.history.stepUp()` to go one level up (=drop last fraction of hash)
