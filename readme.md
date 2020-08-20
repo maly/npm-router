@@ -23,7 +23,7 @@ const ohc = require("./js/router.js")(paths);
 
 //middleware push
 
-ohc(params => {
+ohc((params,pattern) => {
   if (params.showSection) {
     $("section").hide();
     $("section#" + params.showSection).show();

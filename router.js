@@ -135,7 +135,7 @@ const onHashChange = (main) => {
   //middleware
 
   for (let i = 0; i < middleware.length; i++) {
-    middleware[i](params);
+    middleware[i](params, patterns[found][0]);
   }
   /*
   if (params.showSection) {
